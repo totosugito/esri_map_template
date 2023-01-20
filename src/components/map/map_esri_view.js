@@ -9,14 +9,13 @@ class MapEsriView extends React.Component {
     constructor(props) {
         super(props);
         this.mapRef = React.createRef();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        // console.log(prevProps)
-        if (prevProps.mapParam.basemap !== this.props.mapParam.basemap) {
-            console.log('pokemons state has changed.')
+        this.state = {
+            graphicsPointLayer: [],
+            graphicsLineLayer: [],
+            graphicsPolygonLayer: []
         }
     }
+
     componentDidMount() {
         // create map
         const map = new Map({
@@ -31,17 +30,38 @@ class MapEsriView extends React.Component {
             zoom: this.props.zoom
         });
 
-        var graphicsLayer = new GraphicsLayer();
-        map.add(graphicsLayer);
+        this.state.graphicsPointLayer = new GraphicsLayer();
+        this.state.graphicsPointLayer.visible = false;
+        map.add(this.state.graphicsPointLayer);
+        this.addPoint();
 
+        this.state.graphicsLineLayer = new GraphicsLayer();
+        this.state.graphicsLineLayer.visible = false;
+        map.add(this.state.graphicsLineLayer);
+        this.addLine();
+
+        this.state.graphicsPolygonLayer = new GraphicsLayer();
+        this.state.graphicsPolygonLayer.visible = false;
+        map.add(this.state.graphicsPolygonLayer);
+        this.addPolygon();
+    }
+
+    componentWillUnmount() {
+        if (this.view) {
+            // destroy the map view
+            this.view.destroy();
+        }
+    }
+
+    addPoint = () => {
         // Create a point
-        var point = {
+        let point = {
             type: "point",
             longitude: -118.80657463861,
             latitude: 34.0005930608889
         };
 
-        var simpleMarkerSymbol = {
+        let simpleMarkerSymbol = {
             type: "simple-marker",
             color: [226, 119, 40],  // orange
             outline: {
@@ -50,21 +70,23 @@ class MapEsriView extends React.Component {
             }
         };
 
-        var pointGraphic = new Graphic({
+        let pointGraphic = new Graphic({
             geometry: point,
             symbol: simpleMarkerSymbol
         });
 
-        graphicsLayer.add(pointGraphic);
+        this.state.graphicsPointLayer.add(pointGraphic);
+    }
 
+    addLine = () => {
         // Create a line geometry
-        var simpleLineSymbol = {
+        let simpleLineSymbol = {
             type: "simple-line",
             color: [226, 119, 40], // orange
             width: 2
         };
 
-        var polyline = {
+        let polyline = {
             type: "polyline",
             paths: [
                 [-118.821527826096, 34.0139576938577],
@@ -73,15 +95,17 @@ class MapEsriView extends React.Component {
             ]
         };
 
-        var polylineGraphic = new Graphic({
+        let polylineGraphic = new Graphic({
             geometry: polyline,
             symbol: simpleLineSymbol
         })
 
-        graphicsLayer.add(polylineGraphic);
+        this.state.graphicsLineLayer.add(polylineGraphic);
+    }
 
+    addPolygon = () => {
         // Create a polygon geometry
-        var polygon = {
+        let polygon = {
             type: "polygon",
             rings: [
                 [-118.818984489994, 34.0137559967283],
@@ -92,7 +116,7 @@ class MapEsriView extends React.Component {
             ]
         };
 
-        var simpleFillSymbol = {
+        let simpleFillSymbol = {
             type: "simple-fill",
             color: [227, 139, 79, 0.8],  // orange, opacity 80%
             outline: {
@@ -101,19 +125,22 @@ class MapEsriView extends React.Component {
             }
         };
 
-        var polygonGraphic = new Graphic({
+        let polygonGraphic = new Graphic({
             geometry: polygon,
             symbol: simpleFillSymbol
         });
 
-        graphicsLayer.add(polygonGraphic);
+        this.state.graphicsPolygonLayer.add(polygonGraphic)
     }
 
-    componentWillUnmount() {
-        if (this.view) {
-            // destroy the map view
-            this.view.destroy();
-        }
+    setVisibilityLayerPoint = (v) => {
+        this.state.graphicsPointLayer.visible = v;
+    }
+    setVisibilityLayerLine = (v) => {
+        this.state.graphicsLineLayer.visible = v;
+    }
+    setVisibilityLayerPolygon = (v) => {
+        this.state.graphicsPolygonLayer.visible = v;
     }
 
     render() {
