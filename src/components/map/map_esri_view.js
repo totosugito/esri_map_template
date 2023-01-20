@@ -27,7 +27,7 @@ class MapEsriView extends React.Component {
             container: this.mapRef.current,
             map: map,
             center: this.props.mapParam.center,
-            zoom: this.props.zoom
+            zoom: this.props.mapParam.zoom
         });
 
         this.state.graphicsPointLayer = new GraphicsLayer();
@@ -57,8 +57,8 @@ class MapEsriView extends React.Component {
         // Create a point
         let point = {
             type: "point",
-            longitude: -118.80657463861,
-            latitude: 34.0005930608889
+            longitude: 97.493,
+            latitude: 4.994
         };
 
         let simpleMarkerSymbol = {
@@ -89,9 +89,8 @@ class MapEsriView extends React.Component {
         let polyline = {
             type: "polyline",
             paths: [
-                [-118.821527826096, 34.0139576938577],
-                [-118.814893761649, 34.0080602407843],
-                [-118.808878330345, 34.0016642996246]
+                [97.328, 5.101],
+                [97.707, 4.680],
             ]
         };
 
@@ -108,17 +107,21 @@ class MapEsriView extends React.Component {
         let polygon = {
             type: "polygon",
             rings: [
-                [-118.818984489994, 34.0137559967283],
-                [-118.806796597377, 34.0215816298725],
-                [-118.791432890735, 34.0163883241613],
-                [-118.79596686535, 34.008564864635],
-                [-118.808558110679, 34.0035027131376]
+                [96.976, 5.514],
+                [97.174, 5.142],
+                [97.493, 5.252],
+                [98.020, 4.628],
+                [98.328, 4.633],
+                [98.361, 5.361],
+                [97.998, 5.375],
+                [97.976, 5.621],
+                [97.100, 5.634],
             ]
         };
 
         let simpleFillSymbol = {
             type: "simple-fill",
-            color: [227, 139, 79, 0.8],  // orange, opacity 80%
+            color: [51, 255, 51, 0.4],  // orange, opacity 80%
             outline: {
                 color: [255, 255, 255],
                 width: 1

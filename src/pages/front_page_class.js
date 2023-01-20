@@ -1,17 +1,16 @@
 import * as React from 'react';
 import {Box, Button, Grid} from "@mui/material";
-import MapEsriView from "../map/map_esri_view";
+import MapEsriView from "../components/map/map_esri_view";
 
 class FrontPageClass extends React.Component {
     constructor(props) {
         super(props);
         this.mapEsriViewRef = React.createRef()
         this.state ={
-            zoom: 13,
             mapParam: {
-                basemap: "topo-vector",
-                center: [-118.80500,34.02700],
-                zoom: 20
+                basemap: "satellite",
+                center: [97.432, 5.011],
+                zoom: 8
             },
             showLayerPoint: false,
             showLayerLine: false,

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Box, Button, Grid} from "@mui/material";
-import MapEsriView from "../map/map_esri_view";
+import MapEsriView from "../components/map/map_esri_view";
 
 const FrontPage = () => {
     const mapParam = {
